@@ -4,10 +4,10 @@
   "private": true,
   "homepage": "http://ern1.github.io/squares-page",
   "dependencies": {
-    "midi-sounds-react": "^1.2.45",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "midi-sounds-react": "^1.2.45"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,11 +1,12 @@
 import React from 'react';
 import MIDISounds from 'midi-sounds-react';
 
-class Sound extends React.Component {
+class SoundPlayer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            noteNr: 0
+            noteNr: 0,
+            midiSoundsRef: Object = React.createRef()
         };
     }
 
@@ -14,7 +15,7 @@ class Sound extends React.Component {
     //var numNotes = 0;
 
     playNote() {
-        //this.midiSounds.playChords(3, [60], 2.5);
+        //this.state.midiSoundsRef.playChords(3, [60], 2.5);
     }
 
     componentDidMount() {
@@ -27,7 +28,7 @@ class Sound extends React.Component {
 
         return (
             <MIDISounds 
-	            ref={(ref) => (this.midiSounds = ref)} 
+	            ref={(ref) => (this.midiSoundsRef = ref)} 
 	            appElementName="root" instruments={[3]} 
 	        />
         )

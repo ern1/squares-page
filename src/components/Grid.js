@@ -1,5 +1,5 @@
 import React from 'react';
-import Sound from './Sound';
+import Sound from './SoundPlayer';
 import './Grid.css';
 
 const el = React.createElement
@@ -49,7 +49,8 @@ class Grid extends React.Component {
             width: 0,
             height: 0,
             squares: [],
-            tableCells: []
+            tableCells: [],
+            midiPlayer: new SoundPlayer()
         };
 
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -107,7 +108,7 @@ class Grid extends React.Component {
                 </table>
 
                 <div>
-                    <Sound></Sound>
+                    <SoundPlayer></SoundPlayer>
                 </div>
             </div>
         )
