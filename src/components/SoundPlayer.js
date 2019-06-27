@@ -6,7 +6,7 @@ class SoundPlayer extends React.Component {
         super(props);
         this.state = {
             noteNr: 0,
-            midiSoundsRef: Object = React.createRef()
+            midiSoundsRef: React.createRef()
         };
     }
 
@@ -35,4 +35,4 @@ class SoundPlayer extends React.Component {
     }
 }
 
-export default Sound;
+export default SoundPlayer;

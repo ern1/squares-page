@@ -1,5 +1,5 @@
 import React from 'react';
-import Sound from './SoundPlayer';
+import SoundPlayer from './SoundPlayer';
 import './Grid.css';
 
 const el = React.createElement
