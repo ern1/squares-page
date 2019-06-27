@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "97673e5b75c46f45523fe24932d18125",
+    "revision": "1ae4bd3b701ced678dc7d098790fd36e",
     "url": "/squares-page/index.html"
   },
   {
-    "revision": "208e4a75d1759c38b754",
+    "revision": "97ffd061a32d65293e77",
     "url": "/squares-page/static/css/main.534a2415.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/squares-page/static/js/2.3f0ca834.chunk.js"
   },
   {
-    "revision": "208e4a75d1759c38b754",
-    "url": "/squares-page/static/js/main.36db5a85.chunk.js"
+    "revision": "97ffd061a32d65293e77",
+    "url": "/squares-page/static/js/main.46d1f18b.chunk.js"
   },
   {
     "revision": "cd052f7c0c40ba19dacb",
