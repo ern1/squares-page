@@ -8,7 +8,7 @@ class Square extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            size: '40pt',
+            size: '4',
             pressed: false,
             color: '#fff',
             borderColor: '#fff',
@@ -31,8 +31,8 @@ class Square extends React.Component {
                 style: {
                     backgroundColor: this.state.color,
                     border: '6px solid' + this.state.borderColor,
-                    height: this.state.size,
-                    width: this.state.size,
+                    height: this.state.size+'em',
+                    width: this.state.size+'em',
                     transition: '1s' } 
             },
             null
@@ -58,11 +58,12 @@ class Grid extends React.Component {
 
     fillGrid() {
         if(!this.state.tableCells.length) {
-            for (let i = 0; i < this.state.height / 40; i++){
+            // TODO: fixa så att det blir rätt storlek
+            for (let i = 0; i < this.state.height / 80; i++){
                 let tableRow = [];
                 let squaresRow = [];
 
-                for (let j = 0; j < this.state.width / 50; j++){
+                for (let j = 0; j < this.state.width / 80; j++){
                     squaresRow.push(el(Square, {posx: i, posy: j}));
 
                     tableRow.push(el('td', { 

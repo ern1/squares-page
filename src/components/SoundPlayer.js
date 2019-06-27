@@ -20,7 +20,7 @@ class SoundPlayer extends React.Component {
 
     componentDidMount() {
 		console.log('rerender after init');
-		this.setState(this.state);
+        this.setState(this.state);
 	}
 
     render() {
