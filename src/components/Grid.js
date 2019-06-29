@@ -22,11 +22,18 @@ class Square extends React.Component {
         }
     }
 
+    squarePressed() {
+        if (!this.state.pressed)
+            this.setState({ pressed: true, borderColor: this.state.color});
+        else
+            this.setState({ pressed: false, borderColor: '#fff'});
+    }
+
     render() {
         return el(
             'div',
             { 
-                onClick: () => this.setState({ pressed: true, borderColor: this.state.color}), 
+                onClick: () => this.squarePressed(), 
                 onMouseEnter: () => this.updateSquare(),
                 style: {
                     backgroundColor: this.state.color,

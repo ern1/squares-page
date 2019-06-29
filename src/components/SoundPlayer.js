@@ -1,21 +1,29 @@
 import React from 'react';
 import MIDISounds from 'midi-sounds-react';
 
+// Får se om denna dataklass behövs.
+// Innehålla note, instrType (enum? ska dock vara simpelt så skippa denna till att börja med)
+class Note {
+    // ...
+}
+
 class SoundPlayer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             noteNr: 0,
-            midiSoundsRef: React.createRef()
+            bpm: 120
+            //midiSoundsRef: React.createRef()
         };
     }
 
     //const notes[] = {}
-    
     //var numNotes = 0;
 
+    // Denna ska köra evig loop (byt namn)? Fast beror lite på hur allt ska fungera sen.
     playNote() {
-        //this.state.midiSoundsRef.playChords(3, [60], 2.5);
+        if (this.midiSounds)
+            this.midiSounds.playChords(3, [60], 2.5);
     }
 
     componentDidMount() {
@@ -24,13 +32,10 @@ class SoundPlayer extends React.Component {
 	}
 
     render() {
-        this.playNote(); // temp
+        //this.playNote(); // temp
 
         return (
-            <MIDISounds 
-	            ref={(ref) => (this.midiSoundsRef = ref)} 
-	            appElementName="root" instruments={[3]} 
-	        />
+            <MIDISounds ref={(ref) => (this.midiSounds = ref)} appElementName="root" instruments={[3]} />
         )
     }
 }
