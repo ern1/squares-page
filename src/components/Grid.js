@@ -48,7 +48,9 @@ class Square extends React.Component {
 }
 
 // TODO: Kör onMouseBlabla-event för alla Square, men gör det i Grid-klassen istället så att man kan ändra dom i närheten? Vänta lite med detta, kanske är lite för krävande.. 
-// TODO: Spela melodi allt eftersom man eller rutor? Klickar man på en spelas den noten högre etc.
+// TODO: Spela melodi allt eftersom man eller rutor? Klickar man på en spelas den noten högre och den rutan pulserar samtidigt som noten spelas (vänta lite med det) etc. 
+//       Lägg till alla rutor i en array som man klickat på, upprepa så många noter ifrån låten och låt de man klickat på pulsera.
+//       Istället för en loop i en funktion i SoundPlayer-klassen så har jag currentNote så den vet vilken som ska spela här näst?
 class Grid extends React.Component {
     constructor(props) {
         super(props);
@@ -79,7 +81,6 @@ class Grid extends React.Component {
                     }, squaresRow[squaresRow.length -1]));
                 }
 
-                // TODO: Använd setState istället
                 this.state.squares[i] = squaresRow;
                 this.state.tableCells[i] = el('tr', { key: i * -1 }, tableRow)
 
