@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import MIDISounds from 'midi-sounds-react';
 
+
+/*Lägg toMidi i Soundplayer-klassen. Kan köra map med toMidi för att få äran av midinummer. 
+Men behöver jag ens detta? Borde finnas något enkelt sätt att få fram alla nummer ur en låt (och behöver ju bara en just nu). + Om ett ackord spelas pulserar alla markerade rutor samtidigt.
+Om det behövs kan jag skicka ref för varje markerad Square till SP så den vet vilken som ska pulsera?*/
+
 // Från music-pitch. Exempel toMidi('A5'), tror sharps/flats blir +/-1. 
 // Kanske bättre att lägga in alla noter som typ defines i egen fil.
 var SEMITONES = [ 0, 2, 4, 5, 7, 9, 11 ];
