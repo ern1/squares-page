@@ -15,6 +15,12 @@ class Square extends React.Component {
         };
     }
 
+    pulse(time) {
+        this.setState({ pressed: false, borderColor: '#fff'});
+        // sleep for time seconds
+        this.setState({ pressed: true, borderColor: this.state.color});
+    }
+
     // Set random color if not already pressed
     updateSquare() {
         if (!this.state.pressed) {
@@ -40,7 +46,7 @@ class Square extends React.Component {
                     border: '6px solid' + this.state.borderColor,
                     height: this.state.size+'em',
                     width: this.state.size+'em',
-                    transition: '1s' } 
+                    transition: '0.5s' } 
             },
             null
         );
