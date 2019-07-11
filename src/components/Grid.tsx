@@ -63,8 +63,6 @@ class Square extends React.Component<{}, SquareState> {
 interface GridState {
     width: number;
     height: number;
-    //squares: Array<any>;
-    //tableCells: Array<any>;
     midiPlayer: any;
 }
 
@@ -81,8 +79,6 @@ export class Grid extends React.Component<{}, GridState> {
         this.state = {
             width: 0,
             height: 0,
-            //squares: [],
-            //tableCells: [],
             midiPlayer: new SoundPlayer({})
         };
 
@@ -108,14 +104,8 @@ export class Grid extends React.Component<{}, GridState> {
                     }, squaresRow[squaresRow.length -1]));
                 }
 
-                // TODO: gör dessa privata (och lokala) istället då de inte är relaterade till rendering
                 this.squares[i] = squaresRow;
                 this.tableCells[i] = el('tr', { key: i * -1 }, tableRow)
-
-                /*this.setState(prevState => ({
-                    squares: [...this.state.squares, squaresRow],
-                    tableCells: [...this.state.tableCells, el('tr', { key: i * -1 }, tableRow)]
-                }))*/
             }
         }
     }

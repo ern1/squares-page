@@ -38,7 +38,7 @@ function toMidi(notes: Array<string>) {
 class Note {
     notes: Array<number>;   // midi number
     value: number;          // in seconds
-    instr: number;          /* Vet ej vilken typ den bör va än, eller om den ens kommer behövas 
+    instr: number;          /* Vet ej vilken typ den bör va än, eller om den ens kommer behövas.
                                Kanske bör skapa ny typ för denna sen? */
 
     constructor(notes: Array<number>, value: number, instr?: number) {
