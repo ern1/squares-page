@@ -1,11 +1,18 @@
-import React from 'react';
-import SoundPlayer from './SoundPlayer';
+import * as React from "react";
+import { SoundPlayer } from './SoundPlayer';
 import './Grid.css';
 
 const el = React.createElement
 
-class Square extends React.Component {
-    constructor(props) {
+interface SquareState {
+    size: string;
+    pressed: boolean;
+    color: string;
+    borderColor: string;
+}
+
+class Square extends React.Component<{}, SquareState> {
+    constructor(props: {}) {
         super(props);
         this.state = {
             size: '4',
@@ -15,7 +22,7 @@ class Square extends React.Component {
         };
     }
 
-    pulse(time) {
+    pulse(time: number) {
         this.setState({ pressed: false, borderColor: '#fff'});
         // sleep for time seconds
         this.setState({ pressed: true, borderColor: this.state.color});
@@ -53,33 +60,47 @@ class Square extends React.Component {
     }
 }
 
+interface GridState {
+    width: number;
+    height: number;
+    //squares: Array<any>;
+    //tableCells: Array<any>;
+    midiPlayer: any;
+}
+
 // TODO: Kör onMouseBlabla-event för alla Square, men gör det i Grid-klassen istället så att man kan ändra dom i närheten? Vänta lite med detta, kanske är lite för krävande.. 
 // TODO: Spela melodi allt eftersom man eller rutor? Klickar man på en spelas den noten högre och den rutan pulserar samtidigt som noten spelas (vänta lite med det) etc. 
 //       Lägg till alla rutor i en array som man klickat på, upprepa så många noter ifrån låten och låt de man klickat på pulsera.
 //       Istället för en loop i en funktion i SoundPlayer-klassen så har jag currentNote så den vet vilken som ska spela här näst?
-class Grid extends React.Component {
-    constructor(props) {
+export class Grid extends React.Component<{}, GridState> {
+    private squares: Array<any>;
+    private tableCells: Array<any>;
+    
+    constructor(props: {}) {
         super(props);
         this.state = {
             width: 0,
             height: 0,
-            squares: [],
-            tableCells: [],
-            midiPlayer: new SoundPlayer()
+            //squares: [],
+            //tableCells: [],
+            midiPlayer: new SoundPlayer({})
         };
 
+        this.squares = [];
+        this.tableCells = [];
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
     fillGrid() {
-        if(!this.state.tableCells.length) {
+        if(!this.tableCells.length) {
             // TODO: fixa så att det blir rätt storlek
             for (let i = 0; i < this.state.height / 80; i++){
                 let tableRow = [];
                 let squaresRow = [];
 
                 for (let j = 0; j < this.state.width / 80; j++){
-                    squaresRow.push(el(Square, {posx: i, posy: j}));
+                    //squaresRow.push(el(Square, {posx: i, posy: j}));
+                    squaresRow.push(el(Square, {}));
 
                     tableRow.push(el('td', { 
                         key: i * Math.ceil(this.state.width / 40) + j,
@@ -87,8 +108,9 @@ class Grid extends React.Component {
                     }, squaresRow[squaresRow.length -1]));
                 }
 
-                this.state.squares[i] = squaresRow;
-                this.state.tableCells[i] = el('tr', { key: i * -1 }, tableRow)
+                // TODO: gör dessa privata (och lokala) istället då de inte är relaterade till rendering
+                this.squares[i] = squaresRow;
+                this.tableCells[i] = el('tr', { key: i * -1 }, tableRow)
 
                 /*this.setState(prevState => ({
                     squares: [...this.state.squares, squaresRow],
@@ -118,7 +140,7 @@ class Grid extends React.Component {
             <div>
                 <table className='grid' cellSpacing='0' cellPadding='0'>
                     <tbody>
-                        {this.state.tableCells}
+                        {this.tableCells}
                     </tbody>
                 </table>
 
@@ -129,5 +151,3 @@ class Grid extends React.Component {
         )
     }
 }
-
-export default Grid;
