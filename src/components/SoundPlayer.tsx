@@ -1,7 +1,7 @@
 import * as React from 'react';
 import MIDISounds from './MIDISounds';
 
-/*Kan köra map med toMidi för att få array av midinummer? 
+/*Kan köra map (higher order function) med toMidi för att få array av midinummer? 
 (om jag nu behöver den, finns nog enkla sätta att lägga in alla noter från låt som midinummer direkt.*/
 
 /* Om det behövs kan jag skicka ref för varje markerad Square till SP så den vet vilken som ska pulsera? 

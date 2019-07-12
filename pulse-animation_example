@@ -1,0 +1,69 @@
+Från https://codepen.io/anon/pen/jjRmWW
+
+HTML:
+<span id="test" class="circle" onclick="onclick()"></span>
+
+CSS:
+.circle {
+	margin:100px;
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #cca92c;
+  cursor: pointer;
+  box-shadow: 0 0 0 rgba(204,169,44, 0.4);
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+  }
+  70% {
+      -webkit-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+    box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+  }
+  70% {
+      -moz-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+      box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+      box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+
+JS:
+var element = document.getElementById("test");
+element.onclick = async function() { onclickfunc() };
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const animation_s = 2;
+async function onclickfunc() {
+	// Kanske får sätta så css animation är typ dubbelt så läng än noten för att det ska bli rätt
+	
+	element.style.animation = "pulse " + animation_s.toString() + "s infinite";
+	await sleep(animation_s * 5000);
+	element.style.animation = '';
+	
+	/*
+	// måste ändra attribut i css-klass för att detta ska fungera
+	element.classList.add('pulse');
+	await sleep(animation_s * 1000);
+	element.classList.remove('pulse'); */
+}

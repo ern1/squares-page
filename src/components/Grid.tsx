@@ -1,8 +1,8 @@
-import * as React from "react";
+import * as React from 'react';
 import { SoundPlayer } from './SoundPlayer';
 import './Grid.css';
 
-const el = React.createElement
+const el = React.createElement;
 
 interface SquareState {
     size: string;
@@ -22,9 +22,15 @@ class Square extends React.Component<{}, SquareState> {
         };
     }
 
-    pulse(time: number) {
+    // TODO: Gör inte på det sätt jag tänkte först här, borde finnas någon CSS-animation (istället
+    //       för transition) för att få ett HTML-element att "pulsera" direkt. (Vill ju att dom som
+    //       är större ska pulsera så dom blir ännu större.)
+    //       ---> JAG GJORDE ÄVEN ETT "PROOF-OF-CONCEPT" SOM BORDE FUNGERA (se fil "pulse-animation_example" i root av detta projekt).
+    //       Kolla även: https://css-tricks.com/controlling-css-animations-transitions-javascript/
+    // TODO: Skulle vara nice om jag typ har en bakgrund i body som skiftas lite varje gång denna metod körs?
+    pulse(animation_s: number) {
         this.setState({ pressed: false, borderColor: '#fff'});
-        // sleep for time seconds
+        // sleep(animation_s * 1000)
         this.setState({ pressed: true, borderColor: this.state.color});
     }
 
@@ -66,7 +72,7 @@ interface GridState {
 }
 
 // TODO: Kör onMouseBlabla-event för alla Square, men gör det i Grid-klassen istället så att man kan ändra dom i närheten? Vänta lite med detta, kanske är lite för krävande.. 
-// TODO: Spela melodi allt eftersom man eller rutor? Klickar man på en spelas den noten högre och den rutan pulserar samtidigt som noten spelas (vänta lite med det) etc. 
+// TODO: Spela melodi allt eftersom man markerar fler rutor. Klickar man på en spelas den noten högre och den rutan pulserar samtidigt som noten spelas (vänta lite med det) etc. 
 //       Lägg till alla rutor i en array som man klickat på, upprepa så många noter ifrån låten och låt de man klickat på pulsera.
 //       Istället för en loop i en funktion i SoundPlayer-klassen så har jag currentNote så den vet vilken som ska spela här näst?
 export class Grid extends React.Component<{}, GridState> {
