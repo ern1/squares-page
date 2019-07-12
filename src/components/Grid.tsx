@@ -63,7 +63,6 @@ class Square extends React.Component<{}, SquareState> {
 interface GridState {
     width: number;
     height: number;
-    midiPlayer: any;
 }
 
 // TODO: Kör onMouseBlabla-event för alla Square, men gör det i Grid-klassen istället så att man kan ändra dom i närheten? Vänta lite med detta, kanske är lite för krävande.. 
@@ -73,13 +72,13 @@ interface GridState {
 export class Grid extends React.Component<{}, GridState> {
     private squares: Array<any>;
     private tableCells: Array<any>;
+    private soundPlayerRef = React.createRef<SoundPlayer>();
     
     constructor(props: {}) {
         super(props);
         this.state = {
             width: 0,
-            height: 0,
-            midiPlayer: new SoundPlayer({})
+            height: 0
         };
 
         this.squares = [];
@@ -124,7 +123,8 @@ export class Grid extends React.Component<{}, GridState> {
     }
 
     render() {
-        this.fillGrid(); // TODO: Fixa så fillGrid() endast körs en enda gång.
+        // TODO: Fixa så fillGrid() endast körs en enda gång.
+        this.fillGrid();
 
         return (
             <div>
@@ -135,7 +135,7 @@ export class Grid extends React.Component<{}, GridState> {
                 </table>
 
                 <div>
-                    <SoundPlayer></SoundPlayer>
+                    <SoundPlayer ref={this.soundPlayerRef} />
                 </div>
             </div>
         )

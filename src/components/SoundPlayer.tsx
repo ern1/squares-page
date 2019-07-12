@@ -58,7 +58,7 @@ export class SoundPlayer extends React.Component<{}, SoundPlayerState> {
     private duration16th = 0;
     private duration8th = 0;
     private duration4th = 0;
-    private midiSounds = React.createRef<MIDISounds>();
+    private midiSoundsRef = React.createRef<MIDISounds>();
     
     constructor(props: {}) {
         super(props);
@@ -89,8 +89,8 @@ export class SoundPlayer extends React.Component<{}, SoundPlayerState> {
 
     // TODO: Gör om denna funktion
     playNotes() {
-        if (this.midiSounds.current)
-            this.midiSounds.current.playChordNow([1], [60], this.duration16th);
+        if (this.midiSoundsRef.current)
+            this.midiSoundsRef.current.playChordNow([1], [60], this.duration16th);
     }
 
     componentDidUpdate(prevState: Readonly<SoundPlayerState>) {
@@ -102,14 +102,14 @@ export class SoundPlayer extends React.Component<{}, SoundPlayerState> {
 		console.log('componentDidMount SoundPlayer');
         this.setState(this.state);
 
-        if(this.midiSounds.current)
-            this.midiSounds.current.setMasterVolume(0.1);
+        if(this.midiSoundsRef.current)
+            this.midiSoundsRef.current.setMasterVolume(0.1);
     }
     
     render() {
         return (
             <div>
-                <MIDISounds ref={this.midiSounds} appElementName="root" instruments={[123]} />
+                <MIDISounds ref={this.midiSoundsRef} appElementName="root" instruments={[123]} />
                 <p><button onClick={this.playNotes.bind(this)}>TEST</button></p>
             </div>
         )
