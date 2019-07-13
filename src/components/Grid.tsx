@@ -28,6 +28,7 @@ class Square extends React.Component<{}, SquareState> {
     //       ---> JAG GJORDE ÄVEN ETT "PROOF-OF-CONCEPT" SOM BORDE FUNGERA (se fil "pulse-animation_example" i root av detta projekt).
     //       Kolla även: https://css-tricks.com/controlling-css-animations-transitions-javascript/
     // TODO: Skulle vara nice om jag typ har en bakgrund i body som skiftas lite varje gång denna metod körs?
+    //       Har ju dock en vit border på rektanglarna nu (när dom är mindre), så det skulle då behöva ändras.
     pulse(animation_s: number) {
         this.setState({ pressed: false, borderColor: '#fff'});
         // sleep(animation_s * 1000)
@@ -96,10 +97,11 @@ export class Grid extends React.Component<{}, GridState> {
         if(!this.tableCells.length) {
             // TODO: fixa så att det blir rätt storlek
             for (let i = 0; i < this.state.height / 80; i++){
-                let tableRow = [];
                 let squaresRow = [];
+                let tableRow = [];
 
                 for (let j = 0; j < this.state.width / 80; j++){
+                    // TODO: Lägg till ref tlil varje square i squares istället (och gör om till 2d array)?
                     //squaresRow.push(el(Square, {posx: i, posy: j}));
                     squaresRow.push(el(Square, {}));
 
