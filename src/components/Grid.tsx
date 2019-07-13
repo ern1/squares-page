@@ -131,7 +131,7 @@ export class Grid extends React.Component<{}, GridState> {
     }
 
     render() {
-        // TODO: Fixa så fillGrid() endast körs en enda gång.
+        // TODO: Fixa så fillGrid() endast körs en gång (räcker väl med att jag kallar på den från componentDidMount() istället?).
         this.fillGrid();
 
         return (
