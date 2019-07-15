@@ -35,6 +35,7 @@ class Square extends React.Component<{}, SquareState> {
         this.setState({ pressed: true, borderColor: this.state.color});
     }
 
+    // TODO: Gör detta i Grid-klassen istället så att man även kan ändra dom i närheten? (avvakta med detta, låter krävande..)
     // Set random color if not already pressed
     updateSquare() {
         if (!this.state.pressed) {
@@ -72,10 +73,6 @@ interface GridState {
     height: number;
 }
 
-// TODO: Kör onMouseBlabla-event för alla Square, men gör det i Grid-klassen istället så att man kan ändra dom i närheten? Vänta lite med detta, kanske är lite för krävande.. 
-// TODO: Spela melodi allt eftersom man markerar fler rutor. Klickar man på en spelas den noten högre och den rutan pulserar samtidigt som noten spelas (vänta lite med det) etc. 
-//       Lägg till alla rutor i en array som man klickat på, upprepa så många noter ifrån låten och låt de man klickat på pulsera.
-//       Istället för en loop i en funktion i SoundPlayer-klassen så har jag currentNote så den vet vilken som ska spela här näst?
 export class Grid extends React.Component<{}, GridState> {
     private squares: Array<any>;
     private tableCells: Array<any>;
@@ -117,6 +114,21 @@ export class Grid extends React.Component<{}, GridState> {
         }
     }
 
+    // Spela melodi allt eftersom man markerar fler rutor. Klickar man på en spelas den noten högre och den rutan pulserar samtidigt som noten spelas (vänta lite med det) etc. 
+    // Om ett ackord spelas pulserar alla markerade rutor samtidigt.
+    // TODO: ---> Behöver en array med ref för alla Squares som är markerade!?
+    audioVisualAnimation() {
+        let currentSquareIndex = 0
+        while(true){
+            // play notes
+            if(this.soundPlayerRef.current)
+                this.soundPlayerRef.current.playNextNotes();
+ 
+            // Makes square pulse
+            // pressedSquares[currentSquareIndex++].pulse(3); // får se hur jag ska göra med tiden (bör vara samma som notvärdet)
+        }
+    }
+
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
@@ -131,7 +143,6 @@ export class Grid extends React.Component<{}, GridState> {
     }
 
     render() {
-        // TODO: Fixa så fillGrid() endast körs en gång (räcker väl med att jag kallar på den från componentDidMount() istället?).
         this.fillGrid();
 
         return (
