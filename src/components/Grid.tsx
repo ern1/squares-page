@@ -27,8 +27,9 @@ class Square extends React.Component<{}, SquareState> {
     //       är större ska pulsera så dom blir ännu större.)
     //       ---> JAG GJORDE ÄVEN ETT "PROOF-OF-CONCEPT" SOM BORDE FUNGERA (se fil "pulse-animation_example" i root av detta projekt).
     //       Kolla även: https://css-tricks.com/controlling-css-animations-transitions-javascript/
+
     // TODO: Skulle vara nice om jag typ har en bakgrund i body som skiftas lite varje gång denna metod körs?
-    //       Har ju dock en vit border på rektanglarna nu (när dom är mindre), så det skulle då behöva ändras.
+    //       Har ju dock en vit border på rektanglarna nu (när dom är mindre), så det skulle då behöva ändras. Kan man göra border transparent istället för att göra den vit?
     pulse(animation_s: number) {
         this.setState({ pressed: false, borderColor: '#fff'});
         // sleep(animation_s * 1000)
