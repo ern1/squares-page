@@ -40,7 +40,7 @@ class Note {
     constructor(notes: Array<number>, value: number, instr?: number) {
         this.notes = notes;
         this.value = value;
-        this.instr = instr ? instr : 1;
+        this.instr = instr ? instr : 3;
     }
 }
 
@@ -63,14 +63,14 @@ export class SoundPlayer extends React.Component<{}, SoundPlayerState> {
             bpm: 150,
             currentNoteIndex: 0,
             track: [
-                new Note([1], this.duration4th),
-                new Note([60], this.duration8th),
                 new Note([1], this.duration16th),
-                new Note([60], this.duration4th),
                 new Note([1], this.duration8th),
-                new Note([60], this.duration16th),
+                new Note([1], this.duration16th),
                 new Note([1], this.duration4th),
-                new Note([60], this.duration8th),
+                new Note([1], this.duration8th),
+                new Note([1], this.duration16th),
+                new Note([1], this.duration4th),
+                new Note([1], this.duration8th),
                 new Note([1], this.duration16th),
             ]
         };
@@ -87,20 +87,23 @@ export class SoundPlayer extends React.Component<{}, SoundPlayerState> {
     // TODO: Gör om denna funktion
     playNotes(n: Note) {
         if (this.midiSoundsRef.current)
-            this.midiSoundsRef.current.playChordNow(n.instr, n.notes, n.value);
+            this.midiSoundsRef.current.playChordNow([n.instr], n.notes, n.value);
             //this.midiSoundsRef.current.playChordNow([1], [60], this.duration16th);
     }
 
     playNextNotes() {
+        console.log("playNextNotes: currentNoteIndex = " + this.state.currentNoteIndex)
         if(this.state.currentNoteIndex >= this.state.track.length)
             this.setState({currentNoteIndex: 0})
 
         this.playNotes(this.state.track[this.state.currentNoteIndex]);
-        this.setState({currentNoteIndex: this.state.currentNoteIndex+1})
+        this.setState({currentNoteIndex: this.state.currentNoteIndex + 1})
     }
 
+    // TODO: FIXA DENNA FÖRST (så att playNextNotes() fungerar)
     playTestNote() {
-        this.playNotes(new Note([1], this.duration16th));
+        //this.playNextNotes();
+        this.playNotes(new Note([1], this.duration4th));
     }
 
     componentDidUpdate(prevState: Readonly<SoundPlayerState>) {

@@ -4,6 +4,10 @@ import './Grid.css';
 
 const el = React.createElement;
 
+function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 interface SquareState {
     size: string;
     pressed: boolean;
@@ -22,17 +26,19 @@ class Square extends React.Component<{}, SquareState> {
         };
     }
 
-    // TODO: Gör inte på det sätt jag tänkte först här, borde finnas någon CSS-animation (istället
+    // TODO: (1) Gör inte på det sätt jag tänkte först här, borde finnas någon CSS-animation (istället
     //       för transition) för att få ett HTML-element att "pulsera" direkt. (Vill ju att dom som
     //       är större ska pulsera så dom blir ännu större.)
     //       ---> JAG GJORDE ÄVEN ETT "PROOF-OF-CONCEPT" SOM BORDE FUNGERA (se fil "pulse-animation_example" i root av detta projekt).
     //       Kolla även: https://css-tricks.com/controlling-css-animations-transitions-javascript/
-
-    // TODO: Skulle vara nice om jag typ har en bakgrund i body som skiftas lite varje gång denna metod körs?
+    // TODO: (2) Skulle vara nice om jag typ har en bakgrund i body som skiftas lite varje gång denna metod körs?
     //       Har ju dock en vit border på rektanglarna nu (när dom är mindre), så det skulle då behöva ändras. Kan man göra border transparent istället för att göra den vit?
     pulse(animation_s: number) {
+        console.log("pulse: " + this);
+
+        // Temp
         this.setState({ pressed: false, borderColor: '#fff'});
-        // sleep(animation_s * 1000)
+        sleep(animation_s * 1000);
         this.setState({ pressed: true, borderColor: this.state.color});
     }
 
@@ -45,10 +51,14 @@ class Square extends React.Component<{}, SquareState> {
     }
 
     squarePressed() {
-        if (!this.state.pressed)
+        if (!this.state.pressed) {
             this.setState({ pressed: true, borderColor: this.state.color});
-        else
+            Grid.pressedSquares.push(this);
+        }
+        else {
             this.setState({ pressed: false, borderColor: '#fff'});
+            Grid.pressedSquares = Grid.pressedSquares.filter(obj => obj !== this);
+        }
     }
 
     render() {
@@ -75,8 +85,9 @@ interface GridState {
 }
 
 export class Grid extends React.Component<{}, GridState> {
-    private squares: Array<any>;
-    private tableCells: Array<any>;
+    //private squares: Array<any> = [];
+    static pressedSquares: Array<Square> = []; // Ska denna ligga här? Finns nog bättre sätt att göra det på.
+    private tableCells: Array<any> = [];
     private soundPlayerRef = React.createRef<SoundPlayer>();
     
     constructor(props: {}) {
@@ -86,8 +97,6 @@ export class Grid extends React.Component<{}, GridState> {
             height: 0
         };
 
-        this.squares = [];
-        this.tableCells = [];
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
@@ -109,24 +118,25 @@ export class Grid extends React.Component<{}, GridState> {
                     }, squaresRow[squaresRow.length -1]));
                 }
 
-                this.squares[i] = squaresRow;
+                //this.squares[i] = squaresRow;
                 this.tableCells[i] = el('tr', { key: i * -1 }, tableRow)
             }
         }
     }
 
-    // Spela melodi allt eftersom man markerar fler rutor. Klickar man på en spelas den noten högre och den rutan pulserar samtidigt som noten spelas (vänta lite med det) etc. 
-    // Om ett ackord spelas pulserar alla markerade rutor samtidigt.
-    // TODO: ---> Behöver en array med ref för alla Squares som är markerade!?
-    audioVisualAnimation() {
-        let currentSquareIndex = 0
-        while(true){
-            // play notes
-            if(this.soundPlayerRef.current)
-                this.soundPlayerRef.current.playNextNotes();
- 
-            // Makes square pulse
-            // pressedSquares[currentSquareIndex++].pulse(3); // får se hur jag ska göra med tiden (bör vara samma som notvärdet)
+    // TODO: Spela melodi allt eftersom man markerar fler rutor. Klickar man på en spelas den noten högre och den rutan pulserar samtidigt som noten spelas etc. 
+    async audioVisualAnimation() {
+        // play each once
+        if(Grid.pressedSquares.length > 0) {
+            for(let sq of Grid.pressedSquares) {
+                console.log("audioVisualAnimation: " + sq);
+                if(this.soundPlayerRef.current)
+                    this.soundPlayerRef.current.playTestNote();
+                    //this.soundPlayerRef.current.playNextNotes();
+
+                // vet inte om async/await behövs, verkar vara sleep som ej fungerar (kolla hur man kör sleep i typescript)
+                await sq.pulse(3);
+            }
         }
     }
 
@@ -145,6 +155,7 @@ export class Grid extends React.Component<{}, GridState> {
 
     render() {
         this.fillGrid();
+        this.audioVisualAnimation(); // temp
 
         return (
             <div>
