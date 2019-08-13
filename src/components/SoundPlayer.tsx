@@ -1,41 +1,11 @@
 import * as React from 'react';
 import MIDISounds from './MIDISounds';
 
-/*Kan köra map (higher order function) med toMidi för att få array av midinummer? 
-(om jag nu behöver den, finns nog enkla sätta att lägga in alla noter från låt som midinummer direkt.*/
-// Convert string to pitch-array notation
-function parse (str: string): Array<number> | null {
-    let LETTERS = 'CDEFGAB';
-    let REGEX = /^([a-gA-G])(#{1,4}|b{1,4}|x{1,2}|)(\d*)$/;
-    var m = REGEX.exec(str);
-    if (!m) 
-        return null;
-    var step = LETTERS.indexOf(m[1].toUpperCase());
-    var alt = m[2].replace(/x/g, '##').length;
-    if (m[2][0] === 'b') 
-        alt *= -1;
-    var oct = m[3] ? +m[3] : 0; // 0 istället för null
-    return [step, alt, oct];
-}
-function toMidi(notes: Array<string>) {
-    let SEMITONES = [ 0, 2, 4, 5, 7, 9, 11 ];
-    let midiArray: Array<number> = [];
-    for (let note of notes) {
-        let pitchArr = parse(note);
-        if(pitchArr) {
-            if(!pitchArr[2] && (pitchArr[2] !== 0))
-                continue;
-            midiArray.push(SEMITONES[pitchArr[0]] + pitchArr[1] + 12 * (pitchArr[2] + 1));
-        }    
-    }
-    return midiArray;
-}
-
-// Can contain more than 1 note. Change class name?
+// Can contain more than 1 note. (Change class name?)
 class Note {
     notes: Array<number>;   // midi number
     value: number;          // in seconds
-    instr: number;          // TODO: Vet ej vilken typ denna bör vara än, får testa mig fram.
+    instr: number;          // TODO: Vet ej vilken typ denna bör vara än, så får testa mig fram.
 
     constructor(notes: Array<number>, value: number, instr?: number) {
         this.notes = notes;
@@ -59,7 +29,7 @@ export class SoundPlayer extends React.Component<{}, SoundPlayerState> {
     constructor(props: {}) {
         super(props);
         this.state = {
-            // varför är inte dessa också privata?? finns väl ingen anledning att köra render() igen..
+            // Gör dessa till private också?! Finns väl ingen anledning att köra render igen?
             bpm: 150,
             currentNoteIndex: 0,
             track: [
@@ -84,11 +54,16 @@ export class SoundPlayer extends React.Component<{}, SoundPlayerState> {
         this.duration4th = this.duration8th * 4;
     }
 
+    resetTrack(){
+        this.setState({currentNoteIndex: 0});
+    }
+
     // TODO: Gör om denna funktion
     playNotes(n: Note) {
-        if (this.midiSoundsRef.current)
+        if (this.midiSoundsRef.current) {
             this.midiSoundsRef.current.playChordNow([n.instr], n.notes, n.value);
             //this.midiSoundsRef.current.playChordNow([1], [60], this.duration16th);
+        }
     }
 
     playNextNotes() {
@@ -100,7 +75,7 @@ export class SoundPlayer extends React.Component<{}, SoundPlayerState> {
         this.setState({currentNoteIndex: this.state.currentNoteIndex + 1})
     }
 
-    // TODO: FIXA DENNA FÖRST (så att playNextNotes() fungerar)
+    // TODO: FIXA NU (så att playNextNotes() fungerar)
     playTestNote() {
         //this.playNextNotes();
         this.playNotes(new Note([1], this.duration4th));
@@ -128,3 +103,34 @@ export class SoundPlayer extends React.Component<{}, SoundPlayerState> {
         )
     }
 }
+
+
+/*Kan köra map (higher order function) med toMidi för att få array av midinummer? 
+(om jag nu behöver den, finns nog enkla sätta att lägga in alla noter från låt som midinummer direkt.*/
+// Convert string to pitch-array notation
+/*function parse (str: string): Array<number> | null {
+    let LETTERS = 'CDEFGAB';
+    let REGEX = /^([a-gA-G])(#{1,4}|b{1,4}|x{1,2}|)(\d*)$/;
+    var m = REGEX.exec(str);
+    if (!m) 
+        return null;
+    var step = LETTERS.indexOf(m[1].toUpperCase());
+    var alt = m[2].replace(/x/g, '##').length;
+    if (m[2][0] === 'b') 
+        alt *= -1;
+    var oct = m[3] ? +m[3] : 0; // 0 istället för null
+    return [step, alt, oct];
+}
+function toMidi(notes: Array<string>) {
+    let SEMITONES = [ 0, 2, 4, 5, 7, 9, 11 ];
+    let midiArray: Array<number> = [];
+    for (let note of notes) {
+        let pitchArr = parse(note);
+        if(pitchArr) {
+            if(!pitchArr[2] && (pitchArr[2] !== 0))
+                continue;
+            midiArray.push(SEMITONES[pitchArr[0]] + pitchArr[1] + 12 * (pitchArr[2] + 1));
+        }    
+    }
+    return midiArray;
+}*/

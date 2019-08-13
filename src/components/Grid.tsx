@@ -57,7 +57,7 @@ class Square extends React.Component<{}, SquareState> {
         }
         else {
             this.setState({ pressed: false, borderColor: '#fff'});
-            Grid.pressedSquares = Grid.pressedSquares.filter(obj => obj !== this);
+            Grid.pressedSquares = Grid.pressedSquares.filter(obj => obj !== this); // remove object from array
         }
     }
 
@@ -108,8 +108,6 @@ export class Grid extends React.Component<{}, GridState> {
                 let tableRow = [];
 
                 for (let j = 0; j < this.state.width / 80; j++){
-                    // TODO: Lägg till ref tlil varje square i squares istället (och gör om till 2d array)?
-                    //squaresRow.push(el(Square, {posx: i, posy: j}));
                     squaresRow.push(el(Square, {}));
 
                     tableRow.push(el('td', { 
@@ -118,25 +116,32 @@ export class Grid extends React.Component<{}, GridState> {
                     }, squaresRow[squaresRow.length -1]));
                 }
 
-                //this.squares[i] = squaresRow;
                 this.tableCells[i] = el('tr', { key: i * -1 }, tableRow)
             }
         }
     }
 
-    // TODO: Spela melodi allt eftersom man markerar fler rutor. Klickar man på en spelas den noten högre och den rutan pulserar samtidigt som noten spelas etc. 
+    // Spela melodi allt eftersom man markerar fler rutor. Klickar man på en spelas den noten högre och den rutan pulserar samtidigt som noten spelas etc. 
     async audioVisualAnimation() {
-        // play each once
+        // Play each note once
         if(Grid.pressedSquares.length > 0) {
             for(let sq of Grid.pressedSquares) {
                 console.log("audioVisualAnimation: " + sq);
-                if(this.soundPlayerRef.current)
-                    this.soundPlayerRef.current.playTestNote();
+                if(this.soundPlayerRef.current) {
+                    this.soundPlayerRef.current.playTestNote(); //temp
                     //this.soundPlayerRef.current.playNextNotes();
+                }
 
-                // vet inte om async/await behövs, verkar vara sleep som ej fungerar (kolla hur man kör sleep i typescript)
+                /* TODO - FIXA DETTA FÖRST:
+                 * Vet inte om async/await behövs, verkar vara sleep som ej fungerar (kolla hur man kör sleep i typescript).
+                 * Är nog även så att playNextNotes() krånglar i SoundPlayer-klassen, så kolla på den också nu.
+                 * När jag fått min sleep att fungera som tänkt, test med playTestNote() först ovan, sen ändra till playNextNotes() när det fungerar. */
                 await sq.pulse(3);
             }
+
+            // Reset track in SoundPlayer
+            if(this.soundPlayerRef.current)
+                this.soundPlayerRef.current.resetTrack();
         }
     }
 
