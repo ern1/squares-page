@@ -1,1 +1,3 @@
-https://ern1.github.io/squares-page/
+Web app that uses React.js
+
+Not good.
